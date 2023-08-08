@@ -14,7 +14,7 @@ public class TodoItemService
 
     public async Task<List<TodoItem>> GetAllTodos()
     {
-        return await _context.TodoItems.ToListAsync();
+        return await _context.TodoItems.OrderBy(todo => todo.Id).ToListAsync();
     }
 
     public async Task<TodoItem> GetTodoById(int id)
