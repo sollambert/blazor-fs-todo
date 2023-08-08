@@ -9,6 +9,7 @@
         <li>
             <input type="checkbox" @bind="todo.IsDone" @onclick="() => UpdateTodo(todo)"/>
             <input @bind ="todo.Title" />
+            <button @onclick="()=> DeleteTodo(todo)">Delete</button>
         </li>
     }
 </ul>
@@ -48,6 +49,12 @@
         todo.IsDone = !todo.IsDone;
         Console.WriteLine(todo.IsDone);
         var result = await todoService.UpdateTodo(todo);
+        await GetTodos();
+    }
+
+    private async Task DeleteTodo(TodoItem todo)
+    {
+        var result = await todoService.DeleteTodo(todo);
         await GetTodos();
     }
 }
