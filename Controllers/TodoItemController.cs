@@ -44,4 +44,12 @@ public class TodoItemController : ControllerBase {
         _context.SaveChanges();
         return Ok(todo);
     }
+
+    [HttpDelete]
+    public IActionResult DeleteTodo(int id) {
+        TodoItem todo = _context.TodoItems.Find(id);
+        _context.Remove(todo);
+        _context.SaveChanges();
+        return NoContent();
+    }
 }
