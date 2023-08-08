@@ -34,5 +34,14 @@ public class TodoItemController : ControllerBase {
         _context.Add(todo);
         _context.SaveChanges();
         return CreatedAtAction(nameof(GetTodoById), new { id = todo.Id}, todo);
-    }   
+    }
+
+    [HttpPut]
+    public IActionResult UpdateTodo(TodoItem todo, int id)
+    {
+        todo.Id = id;
+        _context.Update(todo);
+        _context.SaveChanges();
+        return Ok(todo);
+    }
 }
