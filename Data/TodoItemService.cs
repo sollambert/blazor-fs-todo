@@ -4,15 +4,15 @@ using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using System;
 
-public class TodoItemController
+public class TodoItemService
 {
     private readonly ApplicationContext _context;
-    public TodoItemController(ApplicationContext context)
+    public TodoItemService(ApplicationContext context)
     {
         _context = context;
     }
 
-    public async Task<IEnumerable<TodoItem>> GetAllTodos()
+    public async Task<List<TodoItem>> GetAllTodos()
     {
         return await _context.TodoItems.ToListAsync();
     }
@@ -25,16 +25,16 @@ public class TodoItemController
 
     public async Task<bool> AddTodo(TodoItem todo)
     {
-        _context.Add(todo);
+        var id = _context.Add(todo);
+        Console.WriteLine(id);
         await _context.SaveChangesAsync();
         return true;
     }
 
-    public async Task<TodoItem> UpdateTodo(TodoItem todo, int id)
+    public async Task<TodoItem> UpdateTodo(TodoItem todo)
     {
-        todo.Id = id;
         _context.Update(todo);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
         return todo;
     }
 
