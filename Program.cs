@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.EntityFrameworkCore;
 using BlazorApp.Data;
+using DotNetEnv;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +10,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
+
+DotNetEnv.Env.Load();
+
+string DATABASE_URL = Environment.GetEnvironmentVariable("DATABASE_URL");
+// Console.WriteLine($"Using connection string: {DATABASE_URL}");
+
+builder.Services.AddDbContext<ApplicationContext>(options =>
+    options.UseNpgsql(DATABASE_URL)
+);
 
 var app = builder.Build();
 
